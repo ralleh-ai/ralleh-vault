@@ -21,3 +21,16 @@ python3 skills/vault/scripts/vault_doctor.py --vault-root /path/to/workspace/vau
 - Client-scoped root conventions
 - Git workflow policy and commit templates
 - Cross-agent integration examples
+
+## Local validation commands
+
+```bash
+make test
+make doctor
+make doctor-strict
+make validate
+```
+
+## Engineering style
+
+See `docs/engineering-principles.md` for the practical design posture used in this repo.
