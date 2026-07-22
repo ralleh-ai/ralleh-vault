@@ -42,8 +42,8 @@ Use this checklist before the first public/internal release cut.
 
 ## 7) Launch gate
 
-- [ ] Dry run with one internal client and one multi-client simulation. **[manual/operational run]**
-- [ ] Fix all blockers from dry run.
+- [x] Dry run with one internal client and one multi-client simulation. **[completed: see `docs/release-dry-run-2026-07-22.md`]**
+- [x] Fix all blockers from dry run.
 - [ ] Tag initial release and publish release notes.
 
 ---
@@ -51,4 +51,4 @@ Use this checklist before the first public/internal release cut.
 ## Final status summary
 
 Engineering hardening and quality gates are complete for repository readiness.
-Remaining items are operational release controls requiring owner action (GitHub settings, dry run execution, release tagging).
+Remaining manual item: release tagging/publishing (and optional branch-protection/ruleset upgrade path for private-repo governance).
