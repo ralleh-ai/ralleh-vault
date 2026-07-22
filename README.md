@@ -255,6 +255,7 @@ ralleh-vault/
 - `docs/git-policy.md` — branch and commit rules
 - `docs/faq.md` — practical Q&A
 - `docs/engineering-principles.md` — Carmack-leaning design posture
+- `docs/role-quality.md` — VAULT/VAULT-FAST role scoring and audit contract
 - `docs/phase-3-release-checklist.md` — release hardening checklist
 
 ---
@@ -286,3 +287,5 @@ Commit style:
 - `test(vault): ...`
 
 Git policy: `docs/git-policy.md`
+
+Versioning baseline: bootstrap release line starts at `v0.1.0` and follows semver (`major.minor.patch`) as quality gates and features evolve.
