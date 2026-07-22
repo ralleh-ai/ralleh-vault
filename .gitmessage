@@ -1,0 +1,13 @@
+<type>(vault): <summary>
+
+Context:
+- 
+
+Changes:
+- 
+
+Validation:
+- python3 skills/vault/scripts/vault_doctor.py --vault-root <path> [--strict]
+
+Risks/Follow-up:
+- 
