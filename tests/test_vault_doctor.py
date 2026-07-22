@@ -25,7 +25,12 @@ class VaultDoctorTests(unittest.TestCase):
         tmp = Path(tempfile.mkdtemp(prefix="vault-fixture-"))
         self.addCleanup(lambda: shutil.rmtree(tmp, ignore_errors=True))
         shutil.copytree(FIXTURES / name, tmp / "vault")
-        return tmp / "vault"
+        root = tmp / "vault"
+        # Ensure canonical folders exist even if the fixture source tree had empty
+        # directories omitted by git checkout.
+        (root / "Inbox").mkdir(parents=True, exist_ok=True)
+        (root / "raw").mkdir(parents=True, exist_ok=True)
+        return root
 
     def test_ok_fixture_passes_strict(self) -> None:
         root = self.copy_fixture("vault_ok")
