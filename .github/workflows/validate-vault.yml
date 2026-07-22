@@ -23,3 +23,6 @@ jobs:
       - name: Run vault doctor (strict)
         run: |
           python3 skills/vault/scripts/vault_doctor.py --vault-root scaffold/vault --strict
+      - name: Audit role package precision
+        run: |
+          python3 scripts/audit_roles.py
