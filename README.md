@@ -1,97 +1,156 @@
 # Ralleh Vault
 
-Local-first, plain-Markdown company memory for OpenClaw.
+A local-first, plain-Markdown knowledge system for OpenClaw.
 
-Ralleh Vault turns scattered notes, transcripts, and research into durable, linked, cited knowledge that both humans and agents can trust.
-
----
-
-## Why this exists
-
-Most teams lose decisions and context because knowledge is split across chats, docs, and memory.
-
-Ralleh Vault solves this with:
-- **Markdown as source of truth** (portable, inspectable, Git-friendly)
-- **strict provenance** (`sources` are required on canonical notes)
-- **graph discipline** (`[[wikilinks]]`, MOCs, index + log)
-- **two-agent operating model** optimized for both throughput and quality
+Ralleh Vault converts scattered operational memory (chats, meeting notes, transcripts, docs, exports) into trusted, durable knowledge that agents and humans can retrieve quickly with provenance.
 
 ---
 
-## Core operating model
+## Why use this skill
 
-### Agents
+### The problem it solves
 
-- **VAULT** (`agents/roles/vault`)  
-  Deep synthesis + final crystallization quality.
-- **VAULT-FAST** (`agents/roles/vault-fast`)  
-  High-volume inbox triage, templating, and normalization.
+Teams usually lose context in five ways:
+1. Decisions are buried in chat.
+2. Procedures drift and become folklore.
+3. Raw source files and polished docs are mixed together.
+4. Knowledge quality is hard to measure.
+5. Retrieval is slow and confidence is unknown.
 
-### Workflow
+### What Ralleh Vault gives you
 
-1. **Capture** → land signals in `Inbox/` or immutable `raw/`
-2. **Process (VAULT-FAST)** → classify, template, draft, escalate ambiguity
-3. **Crystallize (VAULT)** → resolve conflicts, create canonical notes, update graph
-4. **Validate** → run doctor checks and keep `Inbox/` healthy
+- **Durable memory**: canonical notes live in `wiki/`, not ephemeral chat.
+- **Auditability**: canonical notes require `sources`; raw provenance is preserved.
+- **Faster answers**: retrieval works from a linked knowledge graph.
+- **Quality gates**: `vault_doctor.py` catches structural drift early.
+- **Operational scale**: two-agent split (VAULT-FAST + VAULT) separates throughput from judgment.
+- **No platform lock-in**: Markdown + folders + Git.
+
+If you want reliable institutional memory without adding a heavy database product, this is the sweet spot.
 
 ---
 
-## Repository layout
+## What this repository contains
 
 ```text
 ralleh-vault/
 ├── skills/vault/                # Skill contract, runbooks, templates, schema, doctor
-├── agents/roles/vault/          # Deep knowledge role package
-├── agents/roles/vault-fast/     # Fast processing role package
+├── agents/roles/vault/          # VAULT role (high-judgment crystallization)
+├── agents/roles/vault-fast/     # VAULT-FAST role (high-throughput processing)
 ├── scaffold/vault/              # Drop-in canonical vault folder scaffold
-├── tests/                       # Doctor test suite + fixtures
-├── docs/                        # Migration, policy, FAQ, operating guidance
-├── .github/workflows/           # CI validation
-└── Makefile                     # Local validation commands
+├── tests/                       # Doctor tests + fixtures
+├── docs/                        # Operating docs (migration, integration, retrieval, etc.)
+├── .github/workflows/           # CI quality gates
+└── Makefile                     # Local validation shortcuts
 ```
+
+---
+
+## How to utilize it (day-to-day)
+
+Ralleh Vault runs as an operating loop:
+
+1. **Capture**
+   - Land source-of-truth artifacts into `vault/raw/*`.
+   - Land transient triage notes into `vault/Inbox/*`.
+
+2. **Process (VAULT-FAST)**
+   - Triage high-volume items.
+   - Normalize to templates.
+   - Escalate ambiguity to VAULT.
+
+3. **Crystallize (VAULT)**
+   - Resolve ambiguity.
+   - Produce canonical notes in `vault/wiki/*`.
+   - Update `wiki/index.md` and `wiki/log.md`.
+
+4. **Retrieve**
+   - Query canonical notes first.
+   - Return concise answers with citations.
+
+5. **Maintain + Validate**
+   - Keep Inbox trending to zero.
+   - Run doctor checks continuously.
 
 ---
 
 ## Quickstart (5 minutes)
 
-### 1) Copy scaffold into your OpenClaw workspace
+### 1) Install scaffold
 
 ```bash
 cp -R scaffold/vault /path/to/workspace/vault
 ```
 
-### 2) Validate scaffold quality
+### 2) Validate baseline
 
 ```bash
 python3 skills/vault/scripts/vault_doctor.py --vault-root /path/to/workspace/vault --strict
 ```
 
-### 3) Start the operating loop
+### 3) Start operating
 
-- Put fresh material in `vault/Inbox/` and `vault/raw/`
-- Run `vault.process` with VAULT-FAST
-- Run `vault.crystallize` with VAULT
-- Keep `vault/wiki/index.md` and `vault/wiki/log.md` current
-
----
-
-## Non-negotiable standards
-
-1. **Never edit files in `raw/` after ingest**
-2. **Durable knowledge lives in `wiki/`**
-3. **Canonical `wiki/` notes require valid frontmatter**
-4. **Decisions/Procedures (active/stable) require approval block**
-5. **No silent cross-client blending**
-6. **Doctor gates must pass before release merges**
-
-Frontmatter schema: `skills/vault/schemas/frontmatter.md`  
-Primary skill contract: `skills/vault/SKILL.md`
+- Feed new source material into `vault/raw/` and `vault/Inbox/`
+- Run `vault.process` (VAULT-FAST)
+- Run `vault.crystallize` (VAULT)
+- Run `vault.retrieve` for answers with citations
 
 ---
 
-## Validation and quality gates
+## How to integrate with OpenClaw
 
-### Local
+### Integration model
+
+- Install the Vault skill package from `skills/vault/`
+- Use role packages:
+  - `agents/roles/vault`
+  - `agents/roles/vault-fast`
+- Point both roles at the same vault root (or approved client-scoped roots)
+
+### Capability map
+
+- `vault.capture`
+- `vault.process`
+- `vault.crystallize`
+- `vault.query` / `vault.retrieve`
+- `vault.maintain`
+- `vault.status`
+
+Primary contract: `skills/vault/SKILL.md`
+
+Detailed integration guidance: `docs/integration-guide.md`
+
+---
+
+## How to feed it data correctly
+
+### Raw source ingestion (immutable)
+
+Use `vault/raw/` buckets:
+- `raw/transcripts/`
+- `raw/documents/`
+- `raw/research/`
+- `raw/exports/`
+
+Rules:
+- Do not rewrite originals after ingest.
+- Keep filenames stable and traceable.
+- Record provenance in canonical note `sources`.
+
+### Inbox triage inputs (mutable)
+
+Use `vault/Inbox/` for:
+- meeting takeaways
+- unresolved ideas
+- partial notes requiring processing
+
+Detailed ingestion patterns: `docs/data-ingestion.md`
+
+---
+
+## How to validate quality
+
+### Local commands
 
 ```bash
 make test
@@ -100,71 +159,90 @@ make doctor-strict
 make validate
 ```
 
-### CI
+### CI gate
 
-GitHub Actions workflow: `.github/workflows/validate-vault.yml`
-- runs unit tests
-- runs strict doctor
-- Python matrix: 3.10 / 3.11 / 3.12
+Workflow: `.github/workflows/validate-vault.yml`
+- unit tests
+- strict doctor
+- Python matrix 3.10 / 3.11 / 3.12
 
-### What doctor enforces
+### What validation enforces
 
-- required vault structure (`wiki/`, `raw/`, index/log)
-- frontmatter presence + required fields
-- field format/value checks (`date`, `type`, `status`, `confidence`)
+- required vault structure and required files
+- frontmatter completeness and schema values
 - broken wikilinks
-- inbox staleness thresholds
-- log freshness signal
-- approval-gate compliance for active/stable decisions/procedures
+- stale Inbox detection
+- log freshness checks
+- approval-gate checks for active/stable decision/procedure notes
 
 ---
 
-## Documentation index
+## How to retrieve knowledge
 
-- `docs/migration-guide.md` — move ad-hoc notes into Vault safely
-- `docs/client-scoping.md` — single-root vs multi-client boundary model
-- `docs/git-policy.md` — branch and commit conventions
-- `docs/e2e-inbox-handoff-crystallize.md` — full operational scenario
-- `docs/faq.md` — operational FAQ
-- `docs/engineering-principles.md` — design posture
+Retrieval strategy:
+1. search canonical `wiki/` notes first
+2. traverse `related` links for context expansion
+3. pull raw sources only when canonical coverage is weak
+4. return concise answers + explicit citations
+
+Retrieval runbook: `skills/vault/runbooks/query.md`  
+Retrieval examples: `skills/vault/examples/agent-call-examples.md`  
+Deep retrieval guide: `docs/retrieval-guide.md`
+
+---
+
+## Non-negotiable standards
+
+1. Never edit `raw/` files after ingest.
+2. Canonical durable knowledge belongs in `wiki/`.
+3. Canonical notes require valid frontmatter.
+4. Active/stable decisions and procedures require approval section + approver.
+5. No cross-client blending without explicit approval.
+6. Strict validation must pass for release-quality merges.
+
+Schema: `skills/vault/schemas/frontmatter.md`
+
+---
+
+## Documentation map
+
+- `docs/migration-guide.md` — migrate ad-hoc notes safely
+- `docs/integration-guide.md` — OpenClaw integration patterns
+- `docs/data-ingestion.md` — how to feed source data and Inbox batches
+- `docs/retrieval-guide.md` — retrieval patterns and citation formats
+- `docs/client-scoping.md` — tenant boundary strategy
+- `docs/e2e-inbox-handoff-crystallize.md` — end-to-end operational scenario
+- `docs/git-policy.md` — Git conventions and safety
+- `docs/faq.md` — practical Q&A
+- `docs/engineering-principles.md` — Carmack-leaning design posture
 - `docs/phase-3-release-checklist.md` — release hardening checklist
 
 ---
 
-## Design posture (Carmack-leaning)
+## Design posture
 
-- Keep systems **simple and inspectable**
-- Prefer **deterministic checks** over vague quality claims
-- Expose state and quality with measurable outputs
-- Build fast local feedback loops (tests + doctor)
-- Avoid unnecessary runtime dependencies
+This project favors:
+- simple and inspectable systems
+- deterministic checks over vague quality claims
+- measurable outputs
+- fast validation loops
+- minimal dependencies
 
 See `docs/engineering-principles.md`.
 
 ---
 
-## Current maturity
-
-- ✅ Skill + role packages scaffolded
-- ✅ Validation tooling with fixtures and CI matrix
-- ✅ Migration, FAQ, and end-to-end docs
-- ✅ Release checklist baseline
-
-Next hardening targets are tracked in `docs/phase-3-release-checklist.md`.
-
----
-
 ## Contributing
 
-1. Create a focused branch (`feat/vault-*`, `fix/vault-*`, `docs/vault-*`)
-2. Keep commits small and reviewable
+1. Branch with `feat/vault-*`, `fix/vault-*`, or `docs/vault-*`
+2. Keep commits focused and reviewable
 3. Run `make validate`
-4. Open PR with summary + validation output
+4. Include validation output in PR summary
 
-Commit style examples:
+Commit style:
 - `feat(vault): ...`
 - `fix(vault): ...`
 - `docs(vault): ...`
 - `test(vault): ...`
 
-See `docs/git-policy.md`.
+Git policy: `docs/git-policy.md`
