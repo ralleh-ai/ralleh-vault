@@ -1,12 +1,17 @@
-# TOOLS — VAULT-FAST
+# TOOLS.md — VAULT-FAST Tool Posture
 
-Preferred operations:
-- File movement/organization
-- Template-based drafting
-- Bulk normalization
-- Lightweight linking prep
+## Tooling Principles
+- Optimize for deterministic throughput, not deep synthesis.
+- Batch similar operations to reduce context switching.
+- Validate each batch before moving to the next.
 
-Escalate to VAULT for:
-- conflicting sources
-- high-stakes decisions
-- procedure finalization
+## Integrations
+- Skill contract: `skills/vault/SKILL.md`.
+- Templates: `skills/vault/templates/`.
+- Runbooks: `skills/vault/runbooks/process.md` and `runbooks/capture.md`.
+- Validation: `skills/vault/scripts/vault_doctor.py`.
+
+## What Does Not Belong Here
+- Final policy decisions that require VAULT/human judgment.
+- Long-form synthesis narratives.
+- Environment secrets or unrelated operational data.

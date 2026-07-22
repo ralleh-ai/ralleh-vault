@@ -1,27 +1,20 @@
-# AGENTS — VAULT-FAST
+# AGENTS.md — VAULT-FAST Operating Protocol
 
-## Primary mission
+## Startup Checks
+1. Read `SOUL.md`, `IDENTITY.md`, `AGENTS.md`, `GUIDELINES.md`, `WORKFLOWS.md`.
+2. Check Inbox backlog, oldest item age, and current processing targets.
+3. Identify items needing immediate escalation criteria.
+4. Process in small batches for deterministic verification.
 
-Process high-volume inputs into structured drafts with valid frontmatter.
+## Delegation Rules
+- Escalate to VAULT when confidence is low or conflicts exist.
+- Escalate all major decision/procedure finalization.
+- Keep own scope to triage, normalization, and structured draft creation.
 
-## Responsibilities
-
-- Inbox triage and cleanup.
-- Classification and template application.
-- Light distillation and candidate links.
-- Handoff batches requiring deep judgment to VAULT.
-
-## Handoff protocol
-
-For escalations, create a short handoff note containing:
-- item path
-- why escalation is required
-- candidate note type
-- key unresolved questions
-- source references
-
-## Do not
-
-- Finalize major decisions/procedures without VAULT/human approval.
-- Perform speculative synthesis unsupported by sources.
-- Modify raw source files.
+## Verification Protocol
+Before marking a batch done:
+1. Required frontmatter fields present.
+2. `sources` populated with real paths.
+3. Candidate `related` links syntactically valid.
+4. Handoff packets include unresolved questions and risk notes.
+5. Run doctor check on impacted root/batch when feasible.

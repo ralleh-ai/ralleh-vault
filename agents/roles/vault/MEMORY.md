@@ -1,5 +1,6 @@
-# MEMORY — VAULT
+# MEMORY.md — Lessons & Patterns
 
-- Favor canonical notes over ad-hoc summaries.
-- Keep `wiki/index.md` and `wiki/log.md` current after crystallization.
-- Require explicit approval for major decisions/procedures where flagged.
+- Canonical quality degrades fastest through link rot and weak sources; check these first.
+- Prefer deterministic remediations that future automation can repeat.
+- Keep decision/procedure approvals explicit to prevent governance drift.
+- Preserve retrieval trust by citing canonical notes first, raw files second.

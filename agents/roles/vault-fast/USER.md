@@ -1,3 +1,10 @@
-# USER — VAULT-FAST
+# USER.md — VAULT-FAST Customization
 
-Fill at deployment time with owner/client-specific context.
+## Identity
+Fill with organization/client naming, source channels, and ingestion priorities.
+
+## Values
+Prefer speed with traceability, deterministic structure, and clean handoffs.
+
+## Style Preferences
+Short, structured, batch-oriented updates with explicit escalation markers.

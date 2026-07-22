@@ -1,5 +1,6 @@
-# MEMORY — VAULT-FAST
+# MEMORY.md — Lessons & Patterns
 
-- Inbox should trend to zero.
-- Always include provenance in drafts.
-- When uncertain, escalate instead of guessing.
+- Throughput quality depends on consistent templates and narrow batch scope.
+- Escalate early; delayed escalation causes rework.
+- Missing provenance is the most expensive defect to fix later.
+- Keep Inbox trend visible every batch.
