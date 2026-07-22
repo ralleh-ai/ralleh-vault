@@ -41,6 +41,7 @@ WIKILINK_RE = re.compile(r"\[\[([^\]]+)\]\]")
 LOG_LINE_RE = re.compile(r"^-\s+(\d{4}-\d{2}-\d{2}):", re.MULTILINE)
 APPROVAL_HEADING_RE = re.compile(r"^##\s+Approval\s*$", re.MULTILINE)
 APPROVED_BY_RE = re.compile(r"^[-*]?\s*Approved by:\s*(.+?)\s*$", re.MULTILINE)
+UTC = getattr(dt, "UTC", dt.timezone.utc)
 
 TYPE_DIR_EXPECTATION = {
     "entity": "Entities",
@@ -201,7 +202,7 @@ def scan(vault_root: Path, inbox_max_age_hours: int, log_max_age_days: int, stri
     inbox_files = list(inbox.rglob("*.md")) if inbox.exists() else []
     oldest_age_hours: Optional[float] = None
     if inbox_files:
-        now = dt.datetime.now(dt.UTC).timestamp()
+        now = dt.datetime.now(UTC).timestamp()
         oldest_mtime = min(f.stat().st_mtime for f in inbox_files)
         oldest_age_hours = (now - oldest_mtime) / 3600.0
         if oldest_age_hours > inbox_max_age_hours:
@@ -239,7 +240,7 @@ def scan(vault_root: Path, inbox_max_age_hours: int, log_max_age_days: int, stri
         print(f"log_freshness_days: {log_freshness_days}")
     print(f"decision_procedure_active_or_stable_count: {decision_proc_count}")
     print(f"decision_procedure_approval_failures: {decision_proc_approval_fail}")
-    print(f"checked_at: {dt.datetime.now(dt.UTC).isoformat()}")
+    print(f"checked_at: {dt.datetime.now(UTC).isoformat()}")
 
     if warnings:
         print("\nwarnings:")
